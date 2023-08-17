@@ -95,7 +95,7 @@ func countdown(totalDuration time.Duration, countUp bool, sayTheTime bool) {
 
 	start(timeLeft)
 
-	draw(durationToDraw(timeLeft, totalDuration, countUp))
+	draw(durationToDraw(timeLeft, totalDuration, countUp), countUp)
 	if sayTheTime {
 		go say(timeLeft)
 	}
@@ -112,7 +112,7 @@ loop:
 			if pressTime := time.Now(); ev.Key == termbox.KeySpace && pressTime.Sub(inputStartTime) > inputDelayMS {
 				if isPaused {
 					start(timeLeft)
-					draw(durationToDraw(timeLeft, totalDuration, countUp))
+					draw(durationToDraw(timeLeft, totalDuration, countUp), countUp)
 				} else {
 					stop()
 					drawPause()
@@ -124,7 +124,7 @@ loop:
 
 		case <-ticker.C:
 			timeLeft -= tick
-			draw(durationToDraw(timeLeft, totalDuration, countUp))
+			draw(durationToDraw(timeLeft, totalDuration, countUp), countUp)
 			if sayTheTime {
 				go say(timeLeft)
 			}
@@ -139,7 +139,7 @@ loop:
 	}
 }
 
-func draw(d time.Duration) {
+func draw(d time.Duration, countUp bool) {
 	w, h := termbox.Size()
 	clear()
 
@@ -153,7 +153,7 @@ func draw(d time.Duration) {
 
 	x, y := startX, startY
 	for _, s := range text {
-		echo(s, x, y)
+		echo(s, x, y, countUp)
 		x += s.width()
 	}
 
@@ -165,7 +165,7 @@ func drawPause() {
 	startX := w/2 - pausedText.width()/2
 	startY := h * 3 / 4
 
-	echo(pausedText, startX, startY)
+	echo(pausedText, startX, startY, false)
 	flush()
 }
 
