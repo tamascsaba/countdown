@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
-	"github.com/nsf/termbox-go"
 	"os"
 	"unicode/utf8"
+
+	"github.com/nsf/termbox-go"
 )
 
 type Symbol []string
@@ -43,11 +44,15 @@ func toText(str string) Text {
 
 type Font map[rune]Symbol
 
-func echo(s Symbol, startX, startY int) {
+func echo(s Symbol, startX, startY int, countUp bool) {
 	x, y := startX, startY
 	for _, line := range s {
 		for _, r := range line {
-			termbox.SetCell(x, y, r, termbox.ColorDefault, termbox.ColorDefault)
+			color := termbox.ColorDefault
+			if countUp {
+				color = termbox.ColorRed
+			}
+			termbox.SetCell(x, y, r, color, termbox.ColorDefault)
 			x++
 		}
 		x = startX
