@@ -11,14 +11,13 @@
 ## Install
 
 ```sh
-brew install countdown
+git install https://github.com/tamascsaba/countdown
 ```
 
+## Build
 ```sh
-go install github.com/antonmedv/countdown@latest
+go build
 ```
-
-Or download prebuilt binary from [releases](https://github.com/antonmedv/countdown/releases).
 
 ## Usage
 
@@ -45,6 +44,11 @@ Announce (via macOS `say` command) last 10 seconds.
 
 ```sh
 countdown -say 10s
+```
+
+You can change the command like.
+```sh
+countdown 2m; gtimeout 2s confetty; countdown --up 5m
 ```
 
 ## Key binding
